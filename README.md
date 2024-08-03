@@ -2,7 +2,7 @@
 
 ## To-Do
 
-- [ ] Convert the data to the Required format for the Table.
-- [ ] Style the Table
+- [x] Convert the data to the Required format for the Table.
+- [x] Style the Table
 - [ ] Add Pagination functionality
 - [ ] Add column filters

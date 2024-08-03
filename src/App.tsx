@@ -1,4 +1,5 @@
-import "./App.css"
+import { ThemeProvider, CssBaseline, useMediaQuery } from "@mui/material"
+import { lightTheme, darkTheme } from "./theme"
 import DataTable from "./components/DataTable"
 import FMSCAData from "./data.json"
 type TableDataType = {
@@ -16,6 +17,10 @@ type TableDataType = {
   out_of_service_date: string
 }
 function App() {
+  const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)")
+
+  // Determine the theme based on user preference
+  const theme = prefersDarkMode ? darkTheme : lightTheme
   // convert FMSCA_records to match OutputData type
   const tableData: TableDataType[] = FMSCAData.map(record => ({
     created_dt: record.created_dt,
@@ -34,8 +39,11 @@ function App() {
   console.log("tableData", tableData)
   return (
     <>
-      <h1>FMSCA Table</h1>
-      <DataTable data={tableData} />
+      <ThemeProvider theme={theme}>
+        <CssBaseline /> {/* Apply baseline styles for the theme */}
+        <h1>Hello</h1>
+        <DataTable data={tableData} />
+      </ThemeProvider>
     </>
   )
 }
