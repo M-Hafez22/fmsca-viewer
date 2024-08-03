@@ -1,3 +1,15 @@
+/**
+ * The `DataTable` component is a reusable React component that displays a table of data with pagination and filtering functionality.
+ *
+ * The component accepts a `data` prop of type `TableDataType[]`, which is an array of objects representing the data to be displayed in the table.
+ *
+ * The component provides the following features:
+ * - Pagination: The table can be paginated, with the user able to select the number of rows to display per page.
+ * - Filtering: The table can be filtered by any of the properties of the `TableDataType` object, with the user able to enter filter values in text fields.
+ * - Responsive design: The table and filter controls are designed to be responsive and adapt to different screen sizes.
+ *
+ * The component uses the `@mui/material` library for the table and pagination controls, and the `useState` and `ChangeEvent` hooks from React to manage the state of the component.
+ */
 // src/DataTable.tsx
 import React, { useState, ChangeEvent } from "react"
 import {

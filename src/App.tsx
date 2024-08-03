@@ -1,3 +1,9 @@
+/**
+ * The main App component that sets up the theme provider and renders the DataTable component with the transformed FMSCA data.
+ *
+ * The component determines the theme based on the user's system preference for light or dark mode, and then passes the appropriate theme to the ThemeProvider.
+ * The FMSCA data is transformed to match the expected TableDataType format before being passed to the DataTable component.
+ */
 import { ThemeProvider, CssBaseline, useMediaQuery } from "@mui/material"
 import { lightTheme, darkTheme } from "./theme"
 import DataTable from "./components/DataTable"
@@ -41,7 +47,6 @@ function App() {
     <>
       <ThemeProvider theme={theme}>
         <CssBaseline /> {/* Apply baseline styles for the theme */}
-        <h1>Hello</h1>
         <DataTable data={tableData} />
       </ThemeProvider>
     </>
