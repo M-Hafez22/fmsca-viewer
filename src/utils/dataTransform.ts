@@ -1,5 +1,3 @@
-// src/utils/dataTransform.ts
-
 export type InputData = {
   created_dt: string
   data_source_modified_dt: string
