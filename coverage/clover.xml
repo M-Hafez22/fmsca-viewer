@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<coverage generated="1722701838270" clover="3.2.0">
+  <project timestamp="1722701838270" name="All files">
+    <metrics statements="20" coveredstatements="20" conditionals="0" coveredconditionals="0" methods="8" coveredmethods="8" elements="28" coveredelements="28" complexity="0" loc="20" ncloc="20" packages="1" files="1" classes="1"/>
+    <file name="DataTable.tsx" path="/home/hafez/1/Projects/FMSCA_viewer/src/components/DataTable.tsx">
+      <metrics statements="20" coveredstatements="20" conditionals="0" coveredconditionals="0" methods="8" coveredmethods="8"/>
+      <line num="14" count="1" type="stmt"/>
+      <line num="15" count="1" type="stmt"/>
+      <line num="47" count="11" type="stmt"/>
+      <line num="48" count="11" type="stmt"/>
+      <line num="49" count="11" type="stmt"/>
+      <line num="50" count="11" type="stmt"/>
+      <line num="65" count="11" type="stmt"/>
+      <line num="69" count="2" type="stmt"/>
+      <line num="72" count="11" type="stmt"/>
+      <line num="75" count="1" type="stmt"/>
+      <line num="76" count="1" type="stmt"/>
+      <line num="79" count="11" type="stmt"/>
+      <line num="80" count="1" type="stmt"/>
+      <line num="87" count="11" type="stmt"/>
+      <line num="88" count="1100" type="stmt"/>
+      <line num="89" count="12408" type="stmt"/>
+      <line num="95" count="11" type="stmt"/>
+      <line num="101" count="132" type="stmt"/>
+      <line num="134" count="125" type="stmt"/>
+      <line num="167" count="1" type="stmt"/>
+    </file>
+  </project>
+</coverage>
