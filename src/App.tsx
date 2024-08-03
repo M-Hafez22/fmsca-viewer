@@ -1,4 +1,5 @@
 import "./App.css"
+import DataTable from "./components/DataTable"
 import FMSCAData from "./data.json"
 type TableDataType = {
   created_dt: string
@@ -34,9 +35,7 @@ function App() {
   return (
     <>
       <h1>FMSCA Table</h1>
-      {tableData.map(item => (
-        <p>{item.dba_name}</p>
-      ))}
+      <DataTable data={tableData} />
     </>
   )
 }
