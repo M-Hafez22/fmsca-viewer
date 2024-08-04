@@ -25,7 +25,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>27/27</span>
+                <span class='fraction'>28/28</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>20/20</span>
+                <span class='fraction'>21/21</span>
             </div>
         
             
@@ -230,20 +230,8 @@
 <a name='L165'></a><a href='#L165'>165</a>
 <a name='L166'></a><a href='#L166'>166</a>
 <a name='L167'></a><a href='#L167'>167</a>
-<a name='L168'></a><a href='#L168'>168</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<a name='L168'></a><a href='#L168'>168</a>
+<a name='L169'></a><a href='#L169'>169</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -276,6 +264,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">11x</span>
 <span class="cline-any cline-yes">11x</span>
 <span class="cline-any cline-yes">11x</span>
 <span class="cline-any cline-yes">11x</span>
@@ -325,6 +315,18 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -397,20 +399,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">/**
- * The `DataTable` component is a reusable React component that displays a table of data with pagination and filtering functionality.
- *
- * The component accepts a `data` prop of type `TableDataType[]`, which is an array of objects representing the data to be displayed in the table.
- *
- * The component provides the following features:
- * - Pagination: The table can be paginated, with the user able to select the number of rows to display per page.
- * - Filtering: The table can be filtered by any of the properties of the `TableDataType` object, with the user able to enter filter values in text fields.
- * - Responsive design: The table and filter controls are designed to be responsive and adapt to different screen sizes.
- *
- * The component uses the `@mui/material` library for the table and pagination controls, and the `useState` and `ChangeEvent` hooks from React to manage the state of the component.
- */
-// src/DataTable.tsx
-import React, { useState, ChangeEvent } from "react"
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import React, { useState, ChangeEvent } from "react"
 import {
   Table,
   TableBody,
@@ -422,6 +411,7 @@ import {
   Paper,
   TextField,
   Box,
+  useTheme,
 } from "@mui/material"
 &nbsp;
 type TableDataType = {
@@ -444,6 +434,7 @@ type DataTableProps = {
 }
 &nbsp;
 const DataTable: React.FC&lt;DataTableProps&gt; = ({ data }) =&gt; {
+  const theme = useTheme()
   const [page, setPage] = useState(0)
   const [rowsPerPage, setRowsPerPage] = useState(10)
   const [filters, setFilters] = useState({
@@ -495,7 +486,19 @@ const DataTable: React.FC&lt;DataTableProps&gt; = ({ data }) =&gt; {
     &lt;Paper&gt;
       &lt;Box sx={{ padding: 2 }}&gt;
         &lt;Box
-          sx={{ marginBottom: 2, display: "flex", flexWrap: "wrap", gap: 2 }}
+          sx={{
+            position: "sticky",
+            top: 0,
+            backgroundColor: theme.palette.background.paper,
+            zIndex: 1,
+            padding: 2,
+            marginBottom: 2,
+            display: "flex",
+            flexWrap: "wrap",
+            gap: 2,
+            width: "100vw",
+            borderRadius: 2,
+          }}
         &gt;
           {Object.keys(filters).map(key =&gt; (
             &lt;TextField
@@ -571,7 +574,7 @@ export default DataTable
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2024-08-03T16:17:18.267Z
+                at 2024-08-04T10:39:51.837Z
             </div>
         <script src="prettify.js"></script>
         <script>

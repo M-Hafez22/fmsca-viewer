@@ -61,6 +61,7 @@ To set up the project locally, follow these steps:
     ```
 
 > The app will be available at <http://localhost:3000>.
+> Test coverage 100% with jest and RTL
 
 ## Notes
 
