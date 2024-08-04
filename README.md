@@ -60,8 +60,21 @@ To set up the project locally, follow these steps:
     npm run dev
     ```
 
-> The app will be available at <http://localhost:3000>.
-> Test coverage 100% with jest and RTL
+    > The app will be available at <http://localhost:3000>.
+
+5. Run test
+
+    ```bash
+    npm test
+    ```
+
+6. Run test with coverage
+
+    ```bash
+    npm test:coverage
+    ```
+
+    > Test coverage 100% with jest and RTL
 
 ## Notes
 
