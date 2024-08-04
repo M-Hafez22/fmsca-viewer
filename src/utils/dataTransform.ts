@@ -33,6 +33,6 @@ export const transformFMSCAData = (): TableDataType[] => {
     dot: record.usdot_number.toString(),
     mc_mx_ff: record.mc_mx_ff_number || "",
     power_units: record.power_units.toString(),
-    out_of_service_date: "",
+    out_of_service_date: record.out_of_service_date || "",
   }))
 }
