@@ -8,6 +8,8 @@ import { ThemeProvider, CssBaseline, useMediaQuery } from "@mui/material"
 import { lightTheme, darkTheme } from "./theme"
 import DataTable from "./components/DataTable"
 import { transformFMSCAData } from "./utils/dataTransform"
+import { transformFMSCAPivotData } from "./utils/pivotTransform"
+import PivotTable from "./components/PivotTable"
 
 function App() {
   const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)")
@@ -16,12 +18,14 @@ function App() {
   const theme = prefersDarkMode ? darkTheme : lightTheme
   // convert FMSCA_records to match OutputData type
   const tableData = transformFMSCAData()
+  const pivotData = transformFMSCAPivotData()
   console.log("tableData", tableData)
   return (
     <>
       <ThemeProvider theme={theme}>
         <CssBaseline /> {/* Apply baseline styles for the theme */}
         <DataTable data={tableData} />
+        <PivotTable data={pivotData} />
       </ThemeProvider>
     </>
   )

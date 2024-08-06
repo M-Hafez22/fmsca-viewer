@@ -74,7 +74,27 @@ To set up the project locally, follow these steps:
     npm test:coverage
     ```
 
-    > Test coverage 100% with jest and RTL
+    <!-- > Test coverage 100% with jest and RTL -->
+
+## Recent Updates
+
+### Added Pivot Table
+
+- **New Data Transformation**:
+  - Implemented a `transformFMSCAPivotData` function to aggregate data for the pivot table.
+  - This function groups data by `entity_type` and `p_state` and counts the number of records for each combination.
+
+- **New PivotTable Component**:
+  - Created a `PivotTable` component to display the aggregated data.
+  - The pivot table shows counts of records grouped by entity type and state.
+  - Integrated the `PivotTable` component into the `App` component alongside the existing `DataTable`.
+
+- **Testing**:
+  - Added tests for the `transformFMSCAPivotData` function.
+  - Added tests for the `PivotTable` component to ensure it renders correctly and handles cases where data is missing.
+
+- **Documentation**:
+  - Documented the `pivotTransform.ts` and `PivotTable.tsx` files for better maintainability and understanding.
 
 ## Notes
 
