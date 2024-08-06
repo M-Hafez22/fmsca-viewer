@@ -21,7 +21,9 @@ describe("transformFMSCAData", () => {
       expect(item.dot).toEqual(FMSCAData[index].usdot_number.toString())
       expect(item.mc_mx_ff).toEqual(FMSCAData[index].mc_mx_ff_number || "")
       expect(item.power_units).toEqual(FMSCAData[index].power_units.toString())
-      expect(item.out_of_service_date).toEqual("")
+      expect(item.out_of_service_date).toEqual(
+        FMSCAData[index].out_of_service_date || ""
+      )
     })
   })
 })

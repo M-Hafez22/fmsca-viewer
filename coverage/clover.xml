@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1722768071697" clover="3.2.0">
-  <project timestamp="1722768071697" name="All files">
-    <metrics statements="24" coveredstatements="24" conditionals="6" coveredconditionals="6" methods="10" coveredmethods="10" elements="40" coveredelements="40" complexity="0" loc="24" ncloc="24" packages="2" files="2" classes="2"/>
+<coverage generated="1722928185582" clover="3.2.0">
+  <project timestamp="1722928185582" name="All files">
+    <metrics statements="24" coveredstatements="24" conditionals="8" coveredconditionals="8" methods="10" coveredmethods="10" elements="42" coveredelements="42" complexity="0" loc="24" ncloc="24" packages="2" files="2" classes="2"/>
     <package name="components">
       <metrics statements="21" coveredstatements="21" conditionals="0" coveredconditionals="0" methods="8" coveredmethods="8"/>
       <file name="DataTable.tsx" path="/home/hafez/1/Projects/FMSCA_viewer/src/components/DataTable.tsx">
@@ -30,9 +30,9 @@
       </file>
     </package>
     <package name="utils">
-      <metrics statements="3" coveredstatements="3" conditionals="6" coveredconditionals="6" methods="2" coveredmethods="2"/>
+      <metrics statements="3" coveredstatements="3" conditionals="8" coveredconditionals="8" methods="2" coveredmethods="2"/>
       <file name="dataTransform.ts" path="/home/hafez/1/Projects/FMSCA_viewer/src/utils/dataTransform.ts">
-        <metrics statements="3" coveredstatements="3" conditionals="6" coveredconditionals="6" methods="2" coveredmethods="2"/>
+        <metrics statements="3" coveredstatements="3" conditionals="8" coveredconditionals="8" methods="2" coveredmethods="2"/>
         <line num="6" count="1" type="stmt"/>
         <line num="23" count="1" type="stmt"/>
         <line num="24" count="102" type="stmt"/>
