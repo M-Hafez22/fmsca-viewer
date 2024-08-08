@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent } from "react"
+import React, { useState, ChangeEvent, useEffect } from "react"
 import {
   Table,
   TableBody,
@@ -54,12 +54,20 @@ const DataTable: React.FC<DataTableProps> = ({ data }) => {
   const [order, setOrder] = useState<"asc" | "desc">("asc")
   const [orderBy, setOrderBy] = useState<keyof TableDataType>("created_dt")
   const [searchTerm, setSearchTerm] = useState("")
-  const [visibleColumns, setVisibleColumns] = useState(
-    Object.keys(data[0]).reduce((acc, key) => {
-      acc[key as keyof TableDataType] = true
-      return acc
-    }, {} as Record<keyof TableDataType, boolean>)
+  const [visibleColumns, setVisibleColumns] = useState<
+    Record<keyof TableDataType, boolean>
+  >(
+    JSON.parse(localStorage.getItem("visibleColumns")!) ||
+      Object.keys(data[0]).reduce((acc, key) => {
+        acc[key as keyof TableDataType] = true
+        return acc
+      }, {} as Record<keyof TableDataType, boolean>)
   )
+
+  // Save visible columns to localStorage
+  useEffect(() => {
+    localStorage.setItem("visibleColumns", JSON.stringify(visibleColumns))
+  }, [visibleColumns])
 
   const handleChangePage = (
     event: React.MouseEvent<HTMLButtonElement> | null,
