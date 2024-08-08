@@ -104,6 +104,12 @@ const DataTable: React.FC<DataTableProps> = ({ data }) => {
     }
   })
 
+  const searchedData = sortedData.filter(row => {
+    return Object.values(row).some(value =>
+      value.toString().toLowerCase().includes(searchTerm.toLowerCase())
+    )
+  })
+
   return (
     <Paper>
       <Box sx={{ padding: 2 }}>
