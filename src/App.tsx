@@ -26,7 +26,7 @@ function App() {
       <ThemeProvider theme={theme}>
         <CssBaseline /> {/* Apply baseline styles for the theme */}
         <DataTable data={FMSCAData} />
-        <PivotTable data={pivotData} />
+        {/* <PivotTable data={pivotData} /> */}
       </ThemeProvider>
     </>
   )

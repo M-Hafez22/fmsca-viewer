@@ -68,7 +68,6 @@ const formatAddress = (row: TableDataType): string => {
 }
 
 const DataTable: React.FC<DataTableProps> = ({ data }) => {
-  console.log(data[0])
   const theme = useTheme()
   const [page, setPage] = useState(0)
   const [rowsPerPage, setRowsPerPage] = useState(10)
@@ -209,7 +208,7 @@ const DataTable: React.FC<DataTableProps> = ({ data }) => {
             />
           ))}
         </Box>
-        <TableContainer>
+        <TableContainer sx={{ overflowX: "auto", maxWidth: "100vw" }}>
           <Table>
             <TableHead>
               <TableRow>
