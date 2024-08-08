@@ -140,6 +140,32 @@ const DataTable: React.FC<DataTableProps> = ({ data }) => {
             />
           ))}
         </Box>
+        <Box sx={{ padding: 2, marginBottom: 2 }}>
+          <TextField
+            label="Search"
+            variant="outlined"
+            size="small"
+            value={searchTerm}
+            onChange={handleSearchChange}
+            fullWidth
+          />
+        </Box>
+        <Box sx={{ padding: 2, marginBottom: 2 }}>
+          {Object.keys(visibleColumns).map(key => (
+            <FormControlLabel
+              key={key}
+              control={
+                <Checkbox
+                  checked={visibleColumns[key as keyof TableDataType]}
+                  onChange={() =>
+                    handleColumnVisibilityChange(key as keyof TableDataType)
+                  }
+                />
+              }
+              label={key}
+            />
+          ))}
+        </Box>
         <TableContainer>
           <Table>
             <TableHead>
