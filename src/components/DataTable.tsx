@@ -43,10 +43,37 @@ const formatAddress = (row: TableDataType): string => {
 
 const DataTable: React.FC<DataTableProps> = ({ data }) => {
   const theme = useTheme()
+  const columnsLabels = [
+    "created_dt",
+    "data_source_modified_dt",
+    "entity_type",
+    "legal_name",
+    "dba_name",
+    "physical_address",
+    "p_street",
+    "p_city",
+    "p_state",
+    "p_zip_code",
+    "phone",
+    "mailing_address",
+    "m_street",
+    "m_city",
+    "m_state",
+    "m_zip_code",
+    "usdot_number",
+    "power_units",
+    "mcs_150_form_date",
+    "out_of_service_date",
+    "drivers",
+    "mcs_150_mileage_year",
+    "id",
+    "credit_score",
+    "record_status",
+  ]
   const [page, setPage] = useState(0)
   const [rowsPerPage, setRowsPerPage] = useState(10)
   const [filters, setFilters] = useState<Record<keyof TableDataType, string>>(
-    Object.keys(data[0]).reduce((acc, key) => {
+    columnsLabels.reduce((acc, key) => {
       acc[key as keyof TableDataType] = ""
       return acc
     }, {} as Record<keyof TableDataType, string>)
@@ -58,7 +85,7 @@ const DataTable: React.FC<DataTableProps> = ({ data }) => {
     Record<keyof TableDataType, boolean>
   >(
     JSON.parse(localStorage.getItem("visibleColumns")!) ||
-      Object.keys(data[0]).reduce((acc, key) => {
+      columnsLabels.reduce((acc, key) => {
         acc[key as keyof TableDataType] = true
         return acc
       }, {} as Record<keyof TableDataType, boolean>)
