@@ -48,6 +48,25 @@ type DataTableProps = {
   data: TableDataType[]
 }
 
+const formatPhoneNumber = (phone: string): string => {
+  const cleaned = ("" + phone).replace(/\D/g, "")
+  const match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/)
+  return match ? `(${match[1]}) ${match[2]}-${match[3]}` : phone
+}
+
+const formatDate = (date: string): string => {
+  const options: Intl.DateTimeFormatOptions = {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }
+  return new Date(date).toLocaleDateString(undefined, options)
+}
+
+const formatAddress = (row: TableDataType): string => {
+  return `${row.p_street}, ${row.p_city}, ${row.p_state} ${row.p_zip_code}`
+}
+
 const DataTable: React.FC<DataTableProps> = ({ data }) => {
   console.log(data[0])
   const theme = useTheme()
@@ -222,7 +241,17 @@ const DataTable: React.FC<DataTableProps> = ({ data }) => {
                       key =>
                         visibleColumns[key as keyof TableDataType] && (
                           <TableCell key={key}>
-                            {row[key as keyof TableDataType]?.toString()}
+                            {key === "phone"
+                              ? formatPhoneNumber(
+                                  row[key as keyof TableDataType] as string
+                                )
+                              : key.includes("dt")
+                              ? formatDate(
+                                  row[key as keyof TableDataType] as string
+                                )
+                              : key === "p_street"
+                              ? formatAddress(row)
+                              : row[key as keyof TableDataType]?.toString()}
                           </TableCell>
                         )
                     )}
