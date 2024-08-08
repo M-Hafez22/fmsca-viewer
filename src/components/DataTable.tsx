@@ -112,6 +112,7 @@ const DataTable: React.FC<DataTableProps> = ({ data }) => {
   const filteredData = data.filter(row => {
     return Object.keys(filters).every(key =>
       row[key as keyof TableDataType]
+        .toString()
         .toLowerCase()
         .includes(filters[key as keyof typeof filters].toLowerCase())
     )
