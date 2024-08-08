@@ -1,4 +1,11 @@
-import React, { useState, ChangeEvent } from "react"
+/**
+ * A React component that renders a data table with filtering, sorting, and pagination functionality.
+ *
+ * @param {DataTableProps} props - The props for the DataTable component.
+ * @param {TableDataType[]} props.data - The data to be displayed in the table.
+ * @returns {JSX.Element} - The rendered DataTable component.
+ */
+import React, { useState, ChangeEvent, useEffect } from "react"
 import {
   Table,
   TableBody,
@@ -15,34 +22,8 @@ import {
   Checkbox,
   FormControlLabel,
 } from "@mui/material"
-
-type TableDataType = {
-  created_dt: string
-  data_source_modified_dt: string
-  entity_type: string
-  operating_status: string
-  legal_name: string
-  dba_name: string
-  physical_address: string
-  p_street: string
-  p_city: string
-  p_state: string
-  p_zip_code: number
-  phone: string
-  mailing_address: string
-  m_street: string
-  m_city: string
-  m_state: string
-  m_zip_code: number
-  usdot_number: number
-  mc_mx_ff_number: string
-  power_units: number
-  mcs_150_form_date: string
-  drivers: number
-  mcs_150_mileage_year: string
-  id: number
-  credit_score: string | null
-}
+import { TableDataType } from "../types"
+import Chart from "./Chart"
 
 type DataTableProps = {
   data: TableDataType[]
@@ -69,10 +50,37 @@ const formatAddress = (row: TableDataType): string => {
 
 const DataTable: React.FC<DataTableProps> = ({ data }) => {
   const theme = useTheme()
+  const columnsLabels = [
+    "created_dt",
+    "data_source_modified_dt",
+    "entity_type",
+    "legal_name",
+    "dba_name",
+    "physical_address",
+    "p_street",
+    "p_city",
+    "p_state",
+    "p_zip_code",
+    "phone",
+    "mailing_address",
+    "m_street",
+    "m_city",
+    "m_state",
+    "m_zip_code",
+    "usdot_number",
+    "power_units",
+    "mcs_150_form_date",
+    "out_of_service_date",
+    "drivers",
+    "mcs_150_mileage_year",
+    "id",
+    "credit_score",
+    "record_status",
+  ]
   const [page, setPage] = useState(0)
   const [rowsPerPage, setRowsPerPage] = useState(10)
   const [filters, setFilters] = useState<Record<keyof TableDataType, string>>(
-    Object.keys(data[0]).reduce((acc, key) => {
+    columnsLabels.reduce((acc, key) => {
       acc[key as keyof TableDataType] = ""
       return acc
     }, {} as Record<keyof TableDataType, string>)
@@ -80,12 +88,20 @@ const DataTable: React.FC<DataTableProps> = ({ data }) => {
   const [order, setOrder] = useState<"asc" | "desc">("asc")
   const [orderBy, setOrderBy] = useState<keyof TableDataType>("created_dt")
   const [searchTerm, setSearchTerm] = useState("")
-  const [visibleColumns, setVisibleColumns] = useState(
-    Object.keys(data[0]).reduce((acc, key) => {
-      acc[key as keyof TableDataType] = true
-      return acc
-    }, {} as Record<keyof TableDataType, boolean>)
+  const [visibleColumns, setVisibleColumns] = useState<
+    Record<keyof TableDataType, boolean>
+  >(
+    JSON.parse(localStorage.getItem("visibleColumns")!) ||
+      columnsLabels.reduce((acc, key) => {
+        acc[key as keyof TableDataType] = true
+        return acc
+      }, {} as Record<keyof TableDataType, boolean>)
   )
+
+  // Save visible columns to localStorage
+  useEffect(() => {
+    localStorage.setItem("visibleColumns", JSON.stringify(visibleColumns))
+  }, [visibleColumns])
 
   const handleChangePage = (
     event: React.MouseEvent<HTMLButtonElement> | null,
@@ -269,6 +285,7 @@ const DataTable: React.FC<DataTableProps> = ({ data }) => {
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
       </Box>
+      <Chart data={searchedData} />
     </Paper>
   )
 }
