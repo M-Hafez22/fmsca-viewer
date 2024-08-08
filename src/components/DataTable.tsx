@@ -53,6 +53,7 @@ const DataTable: React.FC<DataTableProps> = ({ data }) => {
   })
   const [order, setOrder] = useState<"asc" | "desc">("asc")
   const [orderBy, setOrderBy] = useState<keyof TableDataType>("created_dt")
+  const [searchTerm, setSearchTerm] = useState("")
 
   const handleChangePage = (
     event: React.MouseEvent<HTMLButtonElement> | null,
@@ -81,6 +82,9 @@ const DataTable: React.FC<DataTableProps> = ({ data }) => {
     setOrderBy(property)
   }
 
+  const handleSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(event.target.value)
+  }
 
   const filteredData = data.filter(row => {
     return Object.keys(filters).every(key =>
