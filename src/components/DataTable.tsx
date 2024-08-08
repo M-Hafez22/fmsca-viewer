@@ -11,6 +11,7 @@ import {
   TextField,
   Box,
   useTheme,
+  TableSortLabel,
 } from "@mui/material"
 
 type TableDataType = {
@@ -50,6 +51,8 @@ const DataTable: React.FC<DataTableProps> = ({ data }) => {
     power_units: "",
     out_of_service_date: "",
   })
+  const [order, setOrder] = useState<"asc" | "desc">("asc")
+  const [orderBy, setOrderBy] = useState<keyof TableDataType>("created_dt")
 
   const handleChangePage = (
     event: React.MouseEvent<HTMLButtonElement> | null,
@@ -72,13 +75,29 @@ const DataTable: React.FC<DataTableProps> = ({ data }) => {
     })
   }
 
-  // Filter data based on the filter criteria
+  const handleSort = (property: keyof TableDataType) => {
+    const isAsc = orderBy === property && order === "asc"
+    setOrder(isAsc ? "desc" : "asc")
+    setOrderBy(property)
+  }
+
+
   const filteredData = data.filter(row => {
     return Object.keys(filters).every(key =>
       row[key as keyof TableDataType]
         .toLowerCase()
         .includes(filters[key as keyof typeof filters].toLowerCase())
     )
+  })
+
+  const sortedData = filteredData.sort((a, b) => {
+    const valueA = a[orderBy] as string | number
+    const valueB = b[orderBy] as string | number
+    if (order === "asc") {
+      return valueA < valueB ? -1 : 1
+    } else {
+      return valueA > valueB ? -1 : 1
+    }
   })
 
   return (
