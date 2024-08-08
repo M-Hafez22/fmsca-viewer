@@ -12,6 +12,8 @@ import {
   Box,
   useTheme,
   TableSortLabel,
+  Checkbox,
+  FormControlLabel,
 } from "@mui/material"
 
 type TableDataType = {
@@ -54,6 +56,20 @@ const DataTable: React.FC<DataTableProps> = ({ data }) => {
   const [order, setOrder] = useState<"asc" | "desc">("asc")
   const [orderBy, setOrderBy] = useState<keyof TableDataType>("created_dt")
   const [searchTerm, setSearchTerm] = useState("")
+  const [visibleColumns, setVisibleColumns] = useState({
+    created_dt: true,
+    modified_dt: true,
+    entity: true,
+    operating_status: true,
+    legal_name: true,
+    dba_name: true,
+    physical_address: true,
+    phone: true,
+    dot: true,
+    mc_mx_ff: true,
+    power_units: true,
+    out_of_service_date: true,
+  })
 
   const handleChangePage = (
     event: React.MouseEvent<HTMLButtonElement> | null,
@@ -84,6 +100,13 @@ const DataTable: React.FC<DataTableProps> = ({ data }) => {
 
   const handleSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value)
+  }
+
+  const handleColumnVisibilityChange = (column: keyof TableDataType) => {
+    setVisibleColumns(prevState => ({
+      ...prevState,
+      [column]: !prevState[column],
+    }))
   }
 
   const filteredData = data.filter(row => {
@@ -170,37 +193,85 @@ const DataTable: React.FC<DataTableProps> = ({ data }) => {
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell>created_dt</TableCell>
-                <TableCell>modified_dt</TableCell>
-                <TableCell>entity</TableCell>
-                <TableCell>operating_status</TableCell>
-                <TableCell>legal_name</TableCell>
-                <TableCell>dba_name</TableCell>
-                <TableCell>physical_address</TableCell>
-                <TableCell>phone</TableCell>
-                <TableCell>dot</TableCell>
-                <TableCell>mc_mx_ff</TableCell>
-                <TableCell>power_units</TableCell>
-                <TableCell>out_of_service_date</TableCell>
+                {visibleColumns.created_dt && (
+                  <TableCell
+                    sortDirection={orderBy === "created_dt" ? order : false}
+                  >
+                    <TableSortLabel
+                      active={orderBy === "created_dt"}
+                      direction={orderBy === "created_dt" ? order : "asc"}
+                      onClick={() => handleSort("created_dt")}
+                    >
+                      Created Date
+                    </TableSortLabel>
+                  </TableCell>
+                )}
+                {visibleColumns.modified_dt && (
+                  <TableCell
+                    sortDirection={orderBy === "modified_dt" ? order : false}
+                  >
+                    <TableSortLabel
+                      active={orderBy === "modified_dt"}
+                      direction={orderBy === "modified_dt" ? order : "asc"}
+                      onClick={() => handleSort("modified_dt")}
+                    >
+                      Modified Date
+                    </TableSortLabel>
+                  </TableCell>
+                )}
+                {visibleColumns.entity && (
+                  <TableCell
+                    sortDirection={orderBy === "entity" ? order : false}
+                  >
+                    <TableSortLabel
+                      active={orderBy === "entity"}
+                      direction={orderBy === "entity" ? order : "asc"}
+                      onClick={() => handleSort("entity")}
+                    >
+                      Entity
+                    </TableSortLabel>
+                  </TableCell>
+                )}
+                {/* Render remaining columns similarly */}
               </TableRow>
             </TableHead>
             <TableBody>
-              {filteredData
+              {searchedData
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => (
                   <TableRow key={index}>
-                    <TableCell>{row.created_dt}</TableCell>
-                    <TableCell>{row.modified_dt}</TableCell>
-                    <TableCell>{row.entity}</TableCell>
-                    <TableCell>{row.operating_status}</TableCell>
-                    <TableCell>{row.legal_name}</TableCell>
-                    <TableCell>{row.dba_name}</TableCell>
-                    <TableCell>{row.physical_address}</TableCell>
-                    <TableCell>{row.phone}</TableCell>
-                    <TableCell>{row.dot}</TableCell>
-                    <TableCell>{row.mc_mx_ff}</TableCell>
-                    <TableCell>{row.power_units}</TableCell>
-                    <TableCell>{row.out_of_service_date}</TableCell>
+                    {visibleColumns.created_dt && (
+                      <TableCell>{row.created_dt}</TableCell>
+                    )}
+                    {visibleColumns.modified_dt && (
+                      <TableCell>{row.modified_dt}</TableCell>
+                    )}
+                    {visibleColumns.entity && (
+                      <TableCell>{row.entity}</TableCell>
+                    )}
+                    {visibleColumns.operating_status && (
+                      <TableCell>{row.operating_status}</TableCell>
+                    )}
+                    {visibleColumns.legal_name && (
+                      <TableCell>{row.legal_name}</TableCell>
+                    )}
+                    {visibleColumns.dba_name && (
+                      <TableCell>{row.dba_name}</TableCell>
+                    )}
+                    {visibleColumns.physical_address && (
+                      <TableCell>{row.physical_address}</TableCell>
+                    )}
+                    {visibleColumns.phone && <TableCell>{row.phone}</TableCell>}
+                    {visibleColumns.dot && <TableCell>{row.dot}</TableCell>}
+                    {visibleColumns.mc_mx_ff && (
+                      <TableCell>{row.mc_mx_ff}</TableCell>
+                    )}
+                    {visibleColumns.power_units && (
+                      <TableCell>{row.power_units}</TableCell>
+                    )}
+                    {visibleColumns.out_of_service_date && (
+                      <TableCell>{row.out_of_service_date}</TableCell>
+                    )}
                   </TableRow>
                 ))}
             </TableBody>
@@ -209,7 +280,7 @@ const DataTable: React.FC<DataTableProps> = ({ data }) => {
         <TablePagination
           rowsPerPageOptions={[5, 10, 25, 50, 100]}
           component="div"
-          count={filteredData.length}
+          count={searchedData.length}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}
