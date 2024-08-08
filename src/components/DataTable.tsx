@@ -1,3 +1,10 @@
+/**
+ * A React component that renders a data table with filtering, sorting, and pagination functionality.
+ *
+ * @param {DataTableProps} props - The props for the DataTable component.
+ * @param {TableDataType[]} props.data - The data to be displayed in the table.
+ * @returns {JSX.Element} - The rendered DataTable component.
+ */
 import React, { useState, ChangeEvent, useEffect } from "react"
 import {
   Table,
