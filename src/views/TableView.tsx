@@ -23,7 +23,7 @@ import {
   FormControlLabel,
 } from "@mui/material"
 import { TableDataType } from "../types"
-import Chart from "./Chart"
+import Chart from "../components/Chart"
 
 type DataTableProps = {
   data: TableDataType[]
