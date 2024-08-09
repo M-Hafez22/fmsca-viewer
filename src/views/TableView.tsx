@@ -18,8 +18,8 @@ import {
   Button,
 } from "@mui/material"
 import { TableDataType } from "../types"
-import { Resizable } from "re-resizable" // Import the Resizable component
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd" // Import for drag-and-drop
+import { Resizable } from "re-resizable"
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd"
 import Chart from "../components/Chart"
 import ShareIcon from "@mui/icons-material/Share"
 import ResetIcon from "@mui/icons-material/Restore"
@@ -82,21 +82,45 @@ const DataTable: React.FC<DataTableProps> = ({ data }) => {
     return acc
   }, {} as Record<keyof TableDataType, number>)
 
-  const [page, setPage] = useState(0)
-  const [rowsPerPage, setRowsPerPage] = useState(10)
-  const [filters, setFilters] = useState<Record<keyof TableDataType, string>>(
-    columnsLabels.reduce((acc, key) => {
-      acc[key as keyof TableDataType] = ""
-      return acc
-    }, {} as Record<keyof TableDataType, string>)
+  const queryParams = new URLSearchParams(window.location.search)
+
+  const parseJSON = <T,>(value: string | null): T | null => {
+    try {
+      return value ? JSON.parse(value) : null
+    } catch {
+      return null
+    }
+  }
+
+  const [page, setPage] = useState(parseInt(queryParams.get("page") || "0", 10))
+  const [rowsPerPage, setRowsPerPage] = useState(
+    parseInt(queryParams.get("rowsPerPage") || "10", 10)
   )
-  const [order, setOrder] = useState<"asc" | "desc">("asc")
-  const [orderBy, setOrderBy] = useState<keyof TableDataType>("created_dt")
-  const [searchTerm, setSearchTerm] = useState("")
+  const [filters, setFilters] = useState<Record<keyof TableDataType, string>>(
+    parseJSON<Record<keyof TableDataType, string>>(
+      queryParams.get("filters")
+    ) ||
+      columnsLabels.reduce((acc, key) => {
+        acc[key as keyof TableDataType] = ""
+        return acc
+      }, {} as Record<keyof TableDataType, string>)
+  )
+  const [order, setOrder] = useState<"asc" | "desc">(
+    (queryParams.get("order") as "asc" | "desc") || "asc"
+  )
+  const [orderBy, setOrderBy] = useState<keyof TableDataType>(
+    (queryParams.get("orderBy") as keyof TableDataType) || "created_dt"
+  )
+  const [searchTerm, setSearchTerm] = useState(
+    queryParams.get("searchTerm") || ""
+  )
   const [visibleColumns, setVisibleColumns] = useState<
     Record<keyof TableDataType, boolean>
   >(
-    JSON.parse(localStorage.getItem("visibleColumns")!) ||
+    parseJSON<Record<keyof TableDataType, boolean>>(
+      queryParams.get("columns")
+    ) ||
+      JSON.parse(localStorage.getItem("visibleColumns")!) ||
       columnsLabels.reduce((acc, key) => {
         acc[key as keyof TableDataType] = true
         return acc
@@ -104,9 +128,15 @@ const DataTable: React.FC<DataTableProps> = ({ data }) => {
   )
   const [columnWidths, setColumnWidths] = useState<
     Record<keyof TableDataType, number>
-  >(JSON.parse(localStorage.getItem("columnWidths")!) || defaultColumnWidths)
+  >(
+    parseJSON<Record<keyof TableDataType, number>>(queryParams.get("widths")) ||
+      JSON.parse(localStorage.getItem("columnWidths")!) ||
+      defaultColumnWidths
+  )
   const [columnOrder, setColumnOrder] = useState<string[]>(
-    JSON.parse(localStorage.getItem("columnOrder")!) || columnsLabels
+    parseJSON<string[]>(queryParams.get("order")) ||
+      JSON.parse(localStorage.getItem("columnOrder")!) ||
+      columnsLabels
   )
 
   // Save visible columns, widths, and order to localStorage
