@@ -24,6 +24,7 @@ import {
 } from "@mui/material"
 import { TableDataType } from "../types"
 import Chart from "../components/Chart"
+import ResetIcon from "@mui/icons-material/Restore"
 
 type DataTableProps = {
   data: TableDataType[]
@@ -150,6 +151,28 @@ const DataTable: React.FC<DataTableProps> = ({ data }) => {
     })
   })
 
+  const handleReset = () => {
+    setVisibleColumns(
+      columnsLabels.reduce((acc, key) => {
+        acc[key as keyof TableDataType] = true
+        return acc
+      }, {} as Record<keyof TableDataType, boolean>)
+    )
+    setColumnWidths(defaultColumnWidths)
+    setColumnOrder(columnsLabels)
+    setFilters(
+      columnsLabels.reduce((acc, key) => {
+        acc[key as keyof TableDataType] = ""
+        return acc
+      }, {} as Record<keyof TableDataType, string>)
+    )
+    setSearchTerm("")
+    setOrder("asc")
+    setOrderBy("created_dt")
+    setPage(0)
+    setRowsPerPage(10)
+  }
+
   const sortedData = filteredData.sort((a, b) => {
     const valueA = a[orderBy] as string | number
     const valueB = b[orderBy] as string | number
@@ -223,6 +246,23 @@ const DataTable: React.FC<DataTableProps> = ({ data }) => {
               label={key}
             />
           ))}
+        </Box>
+        <Box
+          sx={{
+            padding: 2,
+            marginBottom: 2,
+            display: "flex",
+            justifyContent: "space-between",
+          }}
+        >
+          <Button
+            variant="contained"
+            color="secondary"
+            startIcon={<ResetIcon />}
+            onClick={handleReset}
+          >
+            Reset Settings
+          </Button>
         </Box>
         <TableContainer sx={{ overflowX: "auto", maxWidth: "100vw" }}>
           <Table>
