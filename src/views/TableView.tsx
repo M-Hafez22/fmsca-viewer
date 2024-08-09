@@ -21,9 +21,12 @@ import {
   TableSortLabel,
   Checkbox,
   FormControlLabel,
+  IconButton,
+  Button,
 } from "@mui/material"
 import { TableDataType } from "../types"
 import Chart from "../components/Chart"
+import ShareIcon from "@mui/icons-material/Share"
 import ResetIcon from "@mui/icons-material/Restore"
 
 type DataTableProps = {
@@ -173,6 +176,33 @@ const DataTable: React.FC<DataTableProps> = ({ data }) => {
     setRowsPerPage(10)
   }
 
+  const generateShareableLink = () => {
+    const queryParams = new URLSearchParams({
+      columns: JSON.stringify(visibleColumns),
+      widths: JSON.stringify(columnWidths),
+      order: JSON.stringify(columnOrder),
+      filters: JSON.stringify(filters),
+      searchTerm,
+      orderBy,
+      page: page.toString(),
+      rowsPerPage: rowsPerPage.toString(),
+    })
+    const shareableLink = `${window.location.origin}${
+      window.location.pathname
+    }?${queryParams.toString()}`
+    navigator.clipboard.writeText(shareableLink)
+    alert(`Shareable link copied to clipboard!`)
+  }
+
+  const filteredData = data.filter(row => {
+    return Object.keys(filters).every(key => {
+      const value = row[key as keyof TableDataType]
+      return (value?.toString().toLowerCase() || "").includes(
+        filters[key as keyof typeof filters].toLowerCase()
+      )
+    })
+  })
+
   const sortedData = filteredData.sort((a, b) => {
     const valueA = a[orderBy] as string | number
     const valueB = b[orderBy] as string | number
@@ -255,6 +285,14 @@ const DataTable: React.FC<DataTableProps> = ({ data }) => {
             justifyContent: "space-between",
           }}
         >
+          <Button
+            variant="contained"
+            color="primary"
+            startIcon={<ShareIcon />}
+            onClick={generateShareableLink}
+          >
+            Generate Share Link
+          </Button>
           <Button
             variant="contained"
             color="secondary"
