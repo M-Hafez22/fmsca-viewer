@@ -20,16 +20,18 @@ const NavBar: React.FC = () => {
           FMSCA Dashboard
         </Typography>
         <StyledButton
-          className={location.pathname === "/" ? "active" : ""}
+          className={location.pathname === "/fmsca-viewer" ? "active" : ""}
           component={Link}
-          to="/"
+          to="/fmsca-viewer"
         >
           Table View
         </StyledButton>
         <StyledButton
-          className={location.pathname === "/pivot" ? "active" : ""}
+          className={
+            location.pathname === "/fmsca-viewer/pivot" ? "active" : ""
+          }
           component={Link}
-          to="/pivot"
+          to="/fmsca-viewer/pivot"
         >
           Pivot Table View
         </StyledButton>

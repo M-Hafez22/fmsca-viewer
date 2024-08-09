@@ -16,8 +16,11 @@ function App() {
         <NavBar />
         <div style={{ paddingTop: "64px" }}>
           <Routes>
-            <Route path="/" element={<TableView data={data} />} />
-            <Route path="/pivot" element={<PivotTableView />} />
+            <Route path="/fmsca-viewer" element={<TableView data={data} />} />
+            <Route
+              path="/fmsca-viewer/pivot"
+              element={<PivotTableView data={data} />}
+            />
           </Routes>
         </div>
       </Router>
