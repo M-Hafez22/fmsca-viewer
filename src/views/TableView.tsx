@@ -1,10 +1,3 @@
-/**
- * A React component that renders a data table with filtering, sorting, and pagination functionality.
- *
- * @param {DataTableProps} props - The props for the DataTable component.
- * @param {TableDataType[]} props.data - The data to be displayed in the table.
- * @returns {JSX.Element} - The rendered DataTable component.
- */
 import React, { useState, ChangeEvent, useEffect } from "react"
 import {
   Table,
@@ -21,9 +14,14 @@ import {
   TableSortLabel,
   Checkbox,
   FormControlLabel,
+  Button,
 } from "@mui/material"
 import { TableDataType } from "../types"
+import { Resizable } from "re-resizable"
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd"
 import Chart from "../components/Chart"
+import ShareIcon from "@mui/icons-material/Share"
+import ResetIcon from "@mui/icons-material/Restore"
 
 type DataTableProps = {
   data: TableDataType[]
@@ -77,31 +75,75 @@ const DataTable: React.FC<DataTableProps> = ({ data }) => {
     "credit_score",
     "record_status",
   ]
-  const [page, setPage] = useState(0)
-  const [rowsPerPage, setRowsPerPage] = useState(10)
-  const [filters, setFilters] = useState<Record<keyof TableDataType, string>>(
-    columnsLabels.reduce((acc, key) => {
-      acc[key as keyof TableDataType] = ""
-      return acc
-    }, {} as Record<keyof TableDataType, string>)
+
+  const defaultColumnWidths = columnsLabels.reduce((acc, key) => {
+    acc[key as keyof TableDataType] = 150 // Default width
+    return acc
+  }, {} as Record<keyof TableDataType, number>)
+
+  const queryParams = new URLSearchParams(window.location.search)
+
+  const parseJSON = <T,>(value: string | null): T | null => {
+    try {
+      return value ? JSON.parse(value) : null
+    } catch {
+      return null
+    }
+  }
+
+  const [page, setPage] = useState(parseInt(queryParams.get("page") || "0", 10))
+  const [rowsPerPage, setRowsPerPage] = useState(
+    parseInt(queryParams.get("rowsPerPage") || "10", 10)
   )
-  const [order, setOrder] = useState<"asc" | "desc">("asc")
-  const [orderBy, setOrderBy] = useState<keyof TableDataType>("created_dt")
-  const [searchTerm, setSearchTerm] = useState("")
+  const [filters, setFilters] = useState<Record<keyof TableDataType, string>>(
+    parseJSON<Record<keyof TableDataType, string>>(
+      queryParams.get("filters")
+    ) ||
+      columnsLabels.reduce((acc, key) => {
+        acc[key as keyof TableDataType] = ""
+        return acc
+      }, {} as Record<keyof TableDataType, string>)
+  )
+  const [order, setOrder] = useState<"asc" | "desc">(
+    (queryParams.get("order") as "asc" | "desc") || "asc"
+  )
+  const [orderBy, setOrderBy] = useState<keyof TableDataType>(
+    (queryParams.get("orderBy") as keyof TableDataType) || "created_dt"
+  )
+  const [searchTerm, setSearchTerm] = useState(
+    queryParams.get("searchTerm") || ""
+  )
   const [visibleColumns, setVisibleColumns] = useState<
     Record<keyof TableDataType, boolean>
   >(
-    JSON.parse(localStorage.getItem("visibleColumns")!) ||
+    parseJSON<Record<keyof TableDataType, boolean>>(
+      queryParams.get("columns")
+    ) ||
+      JSON.parse(localStorage.getItem("visibleColumns")!) ||
       columnsLabels.reduce((acc, key) => {
         acc[key as keyof TableDataType] = true
         return acc
       }, {} as Record<keyof TableDataType, boolean>)
   )
+  const [columnWidths, setColumnWidths] = useState<
+    Record<keyof TableDataType, number>
+  >(
+    parseJSON<Record<keyof TableDataType, number>>(queryParams.get("widths")) ||
+      JSON.parse(localStorage.getItem("columnWidths")!) ||
+      defaultColumnWidths
+  )
+  const [columnOrder, setColumnOrder] = useState<string[]>(
+    parseJSON<string[]>(queryParams.get("order")) ||
+      JSON.parse(localStorage.getItem("columnOrder")!) ||
+      columnsLabels
+  )
 
-  // Save visible columns to localStorage
+  // Save visible columns, widths, and order to localStorage
   useEffect(() => {
     localStorage.setItem("visibleColumns", JSON.stringify(visibleColumns))
-  }, [visibleColumns])
+    localStorage.setItem("columnWidths", JSON.stringify(columnWidths))
+    localStorage.setItem("columnOrder", JSON.stringify(columnOrder))
+  }, [visibleColumns, columnWidths, columnOrder])
 
   const handleChangePage = (
     event: React.MouseEvent<HTMLButtonElement> | null,
@@ -139,6 +181,61 @@ const DataTable: React.FC<DataTableProps> = ({ data }) => {
       ...prevState,
       [column]: !prevState[column],
     }))
+  }
+
+  const handleColumnResize = (column: keyof TableDataType, size: number) => {
+    setColumnWidths(prevWidths => ({
+      ...prevWidths,
+      [column]: size,
+    }))
+  }
+
+  const onDragEnd = (result: any) => {
+    if (!result.destination) return
+    const reorderedColumns = Array.from(columnOrder)
+    const [removed] = reorderedColumns.splice(result.source.index, 1)
+    reorderedColumns.splice(result.destination.index, 0, removed)
+    setColumnOrder(reorderedColumns)
+  }
+
+  const handleReset = () => {
+    setVisibleColumns(
+      columnsLabels.reduce((acc, key) => {
+        acc[key as keyof TableDataType] = true
+        return acc
+      }, {} as Record<keyof TableDataType, boolean>)
+    )
+    setColumnWidths(defaultColumnWidths)
+    setColumnOrder(columnsLabels)
+    setFilters(
+      columnsLabels.reduce((acc, key) => {
+        acc[key as keyof TableDataType] = ""
+        return acc
+      }, {} as Record<keyof TableDataType, string>)
+    )
+    setSearchTerm("")
+    setOrder("asc")
+    setOrderBy("created_dt")
+    setPage(0)
+    setRowsPerPage(10)
+  }
+
+  const generateShareableLink = () => {
+    const queryParams = new URLSearchParams({
+      columns: JSON.stringify(visibleColumns),
+      widths: JSON.stringify(columnWidths),
+      order: JSON.stringify(columnOrder),
+      filters: JSON.stringify(filters),
+      searchTerm,
+      orderBy,
+      page: page.toString(),
+      rowsPerPage: rowsPerPage.toString(),
+    })
+    const shareableLink = `${window.location.origin}${
+      window.location.pathname
+    }?${queryParams.toString()}`
+    navigator.clipboard.writeText(shareableLink)
+    alert(`Shareable link copied to clipboard!`)
   }
 
   const filteredData = data.filter(row => {
@@ -224,56 +321,157 @@ const DataTable: React.FC<DataTableProps> = ({ data }) => {
             />
           ))}
         </Box>
+        <Box
+          sx={{
+            padding: 2,
+            marginBottom: 2,
+            display: "flex",
+            justifyContent: "space-between",
+          }}
+        >
+          <Button
+            variant="contained"
+            color="primary"
+            startIcon={<ShareIcon />}
+            onClick={generateShareableLink}
+          >
+            Generate Share Link
+          </Button>
+          <Button
+            variant="contained"
+            color="secondary"
+            startIcon={<ResetIcon />}
+            onClick={handleReset}
+          >
+            Reset Settings
+          </Button>
+        </Box>
         <TableContainer sx={{ overflowX: "auto", maxWidth: "100vw" }}>
-          <Table>
-            <TableHead>
-              <TableRow>
-                {Object.keys(visibleColumns).map(
-                  key =>
-                    visibleColumns[key as keyof TableDataType] && (
-                      <TableCell
-                        key={key}
-                        sortDirection={orderBy === key ? order : false}
-                      >
-                        <TableSortLabel
-                          active={orderBy === key}
-                          direction={orderBy === key ? order : "asc"}
-                          onClick={() => handleSort(key as keyof TableDataType)}
-                        >
-                          {key}
-                        </TableSortLabel>
-                      </TableCell>
-                    )
-                )}
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {searchedData
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((row, index) => (
-                  <TableRow key={index}>
-                    {Object.keys(visibleColumns).map(
-                      key =>
-                        visibleColumns[key as keyof TableDataType] && (
-                          <TableCell key={key}>
-                            {key === "phone"
-                              ? formatPhoneNumber(
-                                  row[key as keyof TableDataType] as string
-                                )
-                              : key.includes("dt")
-                              ? formatDate(
-                                  row[key as keyof TableDataType] as string
-                                )
-                              : key === "p_street"
-                              ? formatAddress(row)
-                              : row[key as keyof TableDataType]?.toString()}
-                          </TableCell>
-                        )
-                    )}
-                  </TableRow>
-                ))}
-            </TableBody>
-          </Table>
+          <DragDropContext onDragEnd={onDragEnd}>
+            <Droppable droppableId="table-columns" direction="horizontal">
+              {provided => (
+                <Table {...provided.droppableProps} ref={provided.innerRef}>
+                  <TableHead>
+                    <TableRow>
+                      {columnOrder.map(
+                        (key, index) =>
+                          visibleColumns[key as keyof TableDataType] && (
+                            <Draggable
+                              key={key}
+                              draggableId={key}
+                              index={index}
+                            >
+                              {provided => (
+                                <TableCell
+                                  ref={provided.innerRef}
+                                  {...provided.draggableProps}
+                                  {...provided.dragHandleProps}
+                                  sortDirection={
+                                    orderBy === key ? order : false
+                                  }
+                                  sx={{
+                                    width:
+                                      columnWidths[key as keyof TableDataType],
+                                    padding: 1,
+                                    position: "relative",
+                                    userSelect: "none",
+                                  }}
+                                >
+                                  <Resizable
+                                    size={{
+                                      width:
+                                        columnWidths[
+                                          key as keyof TableDataType
+                                        ],
+                                      height: "auto",
+                                    }}
+                                    onResizeStop={(e, direction, ref) =>
+                                      handleColumnResize(
+                                        key as keyof TableDataType,
+                                        ref.offsetWidth
+                                      )
+                                    }
+                                    minWidth={50}
+                                    maxWidth={500}
+                                    enable={{
+                                      right: true, // Only allow horizontal resizing
+                                    }}
+                                    style={{
+                                      display: "flex",
+                                      alignItems: "center",
+                                      justifyContent: "space-between",
+                                    }}
+                                  >
+                                    <TableSortLabel
+                                      active={orderBy === key}
+                                      direction={
+                                        orderBy === key ? order : "asc"
+                                      }
+                                      onClick={() =>
+                                        handleSort(key as keyof TableDataType)
+                                      }
+                                    >
+                                      {key}
+                                    </TableSortLabel>
+                                    <Box
+                                      sx={{
+                                        cursor: "col-resize",
+                                        width: "5px",
+                                        height: "100%",
+                                        position: "absolute",
+                                        right: 0,
+                                        top: 0,
+                                        backgroundColor: "#ddd", // Visible resize controller
+                                      }}
+                                    />
+                                  </Resizable>
+                                </TableCell>
+                              )}
+                            </Draggable>
+                          )
+                      )}
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {searchedData
+                      .slice(
+                        page * rowsPerPage,
+                        page * rowsPerPage + rowsPerPage
+                      )
+                      .map((row, index) => (
+                        <TableRow key={index}>
+                          {columnOrder.map(
+                            key =>
+                              visibleColumns[key as keyof TableDataType] && (
+                                <TableCell key={key}>
+                                  {key === "phone"
+                                    ? formatPhoneNumber(
+                                        row[
+                                          key as keyof TableDataType
+                                        ] as string
+                                      )
+                                    : key.includes("dt")
+                                    ? formatDate(
+                                        row[
+                                          key as keyof TableDataType
+                                        ] as string
+                                      )
+                                    : key === "p_street"
+                                    ? formatAddress(row)
+                                    : row[
+                                        key as keyof TableDataType
+                                      ]?.toString()}
+                                </TableCell>
+                              )
+                          )}
+                        </TableRow>
+                      ))}
+                  </TableBody>
+                  {provided.placeholder}
+                </Table>
+              )}
+            </Droppable>
+          </DragDropContext>
         </TableContainer>
         <TablePagination
           rowsPerPageOptions={[5, 10, 25, 50, 100]}
