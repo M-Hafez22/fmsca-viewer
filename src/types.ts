@@ -25,4 +25,5 @@ export type TableDataType = {
   id?: number
   credit_score?: string | null
   out_of_service_date?: string
+  record_status?: string
 }
