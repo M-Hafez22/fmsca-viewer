@@ -1,9 +1,16 @@
 import React from "react"
-import { AppBar, Toolbar, Typography, Button } from "@mui/material"
+import { AppBar, Toolbar, Typography, Button, ButtonProps } from "@mui/material"
 import { Link, useLocation } from "react-router-dom"
 import { styled } from "@mui/material/styles"
 
-const StyledButton = styled(Button)(({ theme }) => ({
+// Extend the ButtonProps to include props for Link
+interface StyledButtonProps extends ButtonProps {
+  component?: React.ElementType
+  to?: string // Add `to` prop
+}
+
+// Extend the Button component's props to include `component`
+const StyledButton = styled(Button)<StyledButtonProps>(({ theme }) => ({
   color: theme.palette.common.white,
   "&.active": {
     backgroundColor: "rgba(255, 255, 255, 0.2)",
