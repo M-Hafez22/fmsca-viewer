@@ -28,7 +28,8 @@ const NavBar: React.FC = () => {
         </Typography>
         <StyledButton
           className={
-            location.pathname === "/fmsca-viewer" || "/fmsca-viewer/"
+            location.pathname === "/fmsca-viewer" ||
+            location.pathname === "/fmsca-viewer/"
               ? "active"
               : ""
           }
