@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from "react"
 import PivotTableUI from "react-pivottable/PivotTableUI"
-import "react-pivottable/pivottable.css"
+import "react-pivottable/pivottable.css" // You still need to import the default CSS for the base styles
 import {
   BarChart,
   Bar,
@@ -11,6 +11,8 @@ import {
   Legend,
 } from "recharts"
 import { TableDataType } from "../types"
+import { useTheme } from "@mui/material/styles"
+import { Box } from "@mui/material"
 
 type Props = {
   data: TableDataType[]
@@ -18,6 +20,7 @@ type Props = {
 
 const PivotTableView: React.FC<Props> = ({ data }) => {
   const [pivotState, setPivotState] = useState<any>({})
+  const theme = useTheme()
 
   const chartData = useMemo(() => {
     const filteredData = applyFilters(pivotState, data)
@@ -29,7 +32,6 @@ const PivotTableView: React.FC<Props> = ({ data }) => {
     )
   }, [pivotState, data])
 
-  // Function to apply filters from the pivot table state
   function applyFilters(pivotState: any, data: TableDataType[]) {
     return data.filter(row => {
       return Object.keys(pivotState.filters || {}).every(filterKey => {
@@ -39,7 +41,6 @@ const PivotTableView: React.FC<Props> = ({ data }) => {
     })
   }
 
-  // Function to aggregate data by the chosen time period
   function aggregateData<K extends keyof TableDataType>(
     data: TableDataType[],
     groupByFields: string[] = [],
@@ -75,7 +76,47 @@ const PivotTableView: React.FC<Props> = ({ data }) => {
   }
 
   return (
-    <div>
+    <Box
+      sx={{
+        bgcolor: theme.palette.background.default,
+        color: theme.palette.text.primary,
+        padding: 2,
+        ".pvtUi": {
+          backgroundColor: "inherit !important",
+          color: "inherit !important",
+          borderColor: "inherit !important",
+        },
+        ".pvtUi select, .pvtUi input": {
+          backgroundColor: "inherit !important",
+          color: "inherit !important",
+          borderColor: "inherit !important",
+        },
+        ".pvtTable thead tr th": {
+          backgroundColor: "inherit !important",
+          color: "inherit !important",
+        },
+        ".pvtTable tbody tr td": {
+          backgroundColor: "inherit !important",
+          color: "inherit !important",
+        },
+        ".pvtAxisContainer, .pvtVals": {
+          backgroundColor: "inherit !important",
+          color: "inherit !important",
+        },
+        "table.pvtTable thead tr th, table.pvtTable tbody tr th": {
+          backgroundColor: "inherit !important",
+          color: "inherit !important",
+        },
+        ".pvtDropdownCurrent": {
+          backgroundColor: "inherit !important",
+          color: "inherit !important",
+        },
+        ".pvtAxisContainer li span.pvtAttr": {
+          backgroundColor: "inherit !important",
+          color: "inherit !important",
+        },
+      }}
+    >
       <PivotTableUI
         data={data}
         onChange={s => setPivotState(s)}
@@ -87,9 +128,9 @@ const PivotTableView: React.FC<Props> = ({ data }) => {
         <YAxis />
         <Tooltip />
         <Legend />
-        <Bar dataKey="count" fill="#8884d8" />
+        <Bar dataKey="count" fill={theme.palette.primary.main} />
       </BarChart>
-    </div>
+    </Box>
   )
 }
 
