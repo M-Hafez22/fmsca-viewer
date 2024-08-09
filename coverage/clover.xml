@@ -1,77 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1722931132991" clover="3.2.0">
-  <project timestamp="1722931132991" name="All files">
-    <metrics statements="53" coveredstatements="53" conditionals="14" coveredconditionals="13" methods="22" coveredmethods="22" elements="89" coveredelements="88" complexity="0" loc="53" ncloc="53" packages="2" files="4" classes="4"/>
-    <package name="components">
-      <metrics statements="34" coveredstatements="34" conditionals="4" coveredconditionals="3" methods="16" coveredmethods="16"/>
-      <file name="DataTable.tsx" path="/home/hafez/1/Projects/FMSCA_viewer/src/components/DataTable.tsx">
-        <metrics statements="21" coveredstatements="21" conditionals="0" coveredconditionals="0" methods="8" coveredmethods="8"/>
-        <line num="1" count="1" type="stmt"/>
-        <line num="2" count="1" type="stmt"/>
-        <line num="35" count="11" type="stmt"/>
-        <line num="36" count="11" type="stmt"/>
-        <line num="37" count="11" type="stmt"/>
-        <line num="38" count="11" type="stmt"/>
-        <line num="39" count="11" type="stmt"/>
-        <line num="54" count="11" type="stmt"/>
-        <line num="58" count="2" type="stmt"/>
-        <line num="61" count="11" type="stmt"/>
-        <line num="64" count="1" type="stmt"/>
-        <line num="65" count="1" type="stmt"/>
-        <line num="68" count="11" type="stmt"/>
-        <line num="69" count="1" type="stmt"/>
-        <line num="76" count="11" type="stmt"/>
-        <line num="77" count="1100" type="stmt"/>
-        <line num="78" count="12408" type="stmt"/>
-        <line num="84" count="11" type="stmt"/>
-        <line num="102" count="132" type="stmt"/>
-        <line num="135" count="125" type="stmt"/>
-        <line num="168" count="1" type="stmt"/>
-      </file>
-      <file name="PivotTable.tsx" path="/home/hafez/1/Projects/FMSCA_viewer/src/components/PivotTable.tsx">
-        <metrics statements="13" coveredstatements="13" conditionals="4" coveredconditionals="3" methods="8" coveredmethods="8"/>
-        <line num="11" count="1" type="stmt"/>
-        <line num="31" count="2" type="stmt"/>
-        <line num="32" count="4" type="stmt"/>
-        <line num="33" count="4" type="stmt"/>
-        <line num="35" count="2" type="stmt"/>
-        <line num="36" count="4" type="stmt"/>
-        <line num="37" count="6" type="cond" truecount="2" falsecount="0"/>
-        <line num="39" count="4" type="cond" truecount="1" falsecount="1"/>
-        <line num="42" count="2" type="stmt"/>
-        <line num="49" count="4" type="stmt"/>
-        <line num="55" count="2" type="stmt"/>
-        <line num="58" count="4" type="stmt"/>
-        <line num="70" count="1" type="stmt"/>
-      </file>
-    </package>
-    <package name="utils">
-      <metrics statements="19" coveredstatements="19" conditionals="10" coveredconditionals="10" methods="6" coveredmethods="6"/>
-      <file name="dataTransform.ts" path="/home/hafez/1/Projects/FMSCA_viewer/src/utils/dataTransform.ts">
-        <metrics statements="3" coveredstatements="3" conditionals="8" coveredconditionals="8" methods="2" coveredmethods="2"/>
-        <line num="6" count="1" type="stmt"/>
-        <line num="23" count="1" type="stmt"/>
-        <line num="24" count="102" type="stmt"/>
-      </file>
-      <file name="pivotTransform.ts" path="/home/hafez/1/Projects/FMSCA_viewer/src/utils/pivotTransform.ts">
-        <metrics statements="16" coveredstatements="16" conditionals="2" coveredconditionals="2" methods="4" coveredmethods="4"/>
-        <line num="9" count="1" type="stmt"/>
-        <line num="17" count="1" type="stmt"/>
-        <line num="18" count="1" type="stmt"/>
-        <line num="20" count="1" type="stmt"/>
-        <line num="21" count="102" type="stmt"/>
-        <line num="22" count="102" type="stmt"/>
-        <line num="24" count="102" type="cond" truecount="1" falsecount="0"/>
-        <line num="25" count="2" type="stmt"/>
-        <line num="27" count="102" type="cond" truecount="1" falsecount="0"/>
-        <line num="28" count="42" type="stmt"/>
-        <line num="31" count="102" type="stmt"/>
-        <line num="34" count="1" type="stmt"/>
-        <line num="36" count="1" type="stmt"/>
-        <line num="37" count="2" type="stmt"/>
-        <line num="38" count="42" type="stmt"/>
-        <line num="46" count="1" type="stmt"/>
-      </file>
-    </package>
+<coverage generated="1723206210765" clover="3.2.0">
+  <project timestamp="1723206210765" name="All files">
+    <metrics statements="18" coveredstatements="18" conditionals="17" coveredconditionals="15" methods="5" coveredmethods="5" elements="40" coveredelements="38" complexity="0" loc="18" ncloc="18" packages="1" files="2" classes="2"/>
+    <file name="groupDataByMonth.ts" path="/home/hafez/1/Projects/FMSCA_viewer/src/utils/groupDataByMonth.ts">
+      <metrics statements="16" coveredstatements="16" conditionals="5" coveredconditionals="4" methods="3" coveredmethods="3"/>
+      <line num="10" count="9" type="stmt"/>
+      <line num="13" count="1" type="stmt"/>
+      <line num="14" count="4" type="stmt"/>
+      <line num="15" count="11" type="cond" truecount="1" falsecount="0"/>
+      <line num="16" count="2" type="stmt"/>
+      <line num="19" count="9" type="stmt"/>
+      <line num="22" count="9" type="cond" truecount="1" falsecount="0"/>
+      <line num="23" count="1" type="stmt"/>
+      <line num="26" count="8" type="stmt"/>
+      <line num="27" count="8" type="stmt"/>
+      <line num="28" count="8" type="cond" truecount="1" falsecount="1"/>
+      <line num="30" count="8" type="cond" truecount="1" falsecount="0"/>
+      <line num="31" count="7" type="stmt"/>
+      <line num="34" count="8" type="stmt"/>
+      <line num="35" count="8" type="stmt"/>
+      <line num="38" count="4" type="stmt"/>
+    </file>
+    <file name="transformData.ts" path="/home/hafez/1/Projects/FMSCA_viewer/src/utils/transformData.ts">
+      <metrics statements="2" coveredstatements="2" conditionals="12" coveredconditionals="11" methods="2" coveredmethods="2"/>
+      <line num="11" count="3" type="stmt"/>
+      <line num="45" count="1" type="stmt"/>
+    </file>
   </project>
 </coverage>
