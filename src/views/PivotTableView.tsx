@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from "react"
 import PivotTableUI from "react-pivottable/PivotTableUI"
-import "react-pivottable/pivottable.css" // You still need to import the default CSS for the base styles
+import "react-pivottable/pivottable.css" // Base styles
 import {
   BarChart,
   Bar,
@@ -117,19 +117,23 @@ const PivotTableView: React.FC<Props> = ({ data }) => {
         },
       }}
     >
-      <PivotTableUI
-        data={data}
-        onChange={s => setPivotState(s)}
-        {...pivotState}
-      />
-      <BarChart width={600} height={300} data={chartData}>
-        <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="period" />
-        <YAxis />
-        <Tooltip />
-        <Legend />
-        <Bar dataKey="count" fill={theme.palette.primary.main} />
-      </BarChart>
+      <Box sx={{ marginBottom: 4 }}>
+        <PivotTableUI
+          data={data}
+          onChange={s => setPivotState(s)}
+          {...pivotState}
+        />
+      </Box>
+      <Box>
+        <BarChart width={600} height={300} data={chartData}>
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="period" />
+          <YAxis />
+          <Tooltip />
+          <Legend />
+          <Bar dataKey="count" fill={theme.palette.primary.main} />
+        </BarChart>
+      </Box>
     </Box>
   )
 }
