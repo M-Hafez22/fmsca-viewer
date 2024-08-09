@@ -26,7 +26,7 @@ import {
   Legend,
 } from "chart.js"
 import { TableDataType } from "../types"
-import { groupDataByMonth } from "../utils/dataUtils"
+import { groupDataByMonth } from "../utils/groupDataByMonth"
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 
