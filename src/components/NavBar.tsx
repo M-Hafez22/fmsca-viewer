@@ -20,7 +20,11 @@ const NavBar: React.FC = () => {
           FMSCA Dashboard
         </Typography>
         <StyledButton
-          className={location.pathname === "/fmsca-viewer" ? "active" : ""}
+          className={
+            location.pathname === "/fmsca-viewer" || "/fmsca-viewer/"
+              ? "active"
+              : ""
+          }
           component={Link}
           to="/fmsca-viewer"
         >
