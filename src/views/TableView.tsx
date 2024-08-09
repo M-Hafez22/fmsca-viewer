@@ -14,7 +14,6 @@ import {
   TableSortLabel,
   Checkbox,
   FormControlLabel,
-  IconButton,
   Button,
 } from "@mui/material"
 import { TableDataType } from "../types"
@@ -370,10 +369,12 @@ const DataTable: React.FC<DataTableProps> = ({ data }) => {
                                   sortDirection={
                                     orderBy === key ? order : false
                                   }
-                                  style={{
+                                  sx={{
                                     width:
                                       columnWidths[key as keyof TableDataType],
-                                    padding: 0,
+                                    padding: 1,
+                                    position: "relative",
+                                    userSelect: "none",
                                   }}
                                 >
                                   <Resizable
@@ -392,6 +393,14 @@ const DataTable: React.FC<DataTableProps> = ({ data }) => {
                                     }
                                     minWidth={50}
                                     maxWidth={500}
+                                    enable={{
+                                      right: true, // Only allow horizontal resizing
+                                    }}
+                                    style={{
+                                      display: "flex",
+                                      alignItems: "center",
+                                      justifyContent: "space-between",
+                                    }}
                                   >
                                     <TableSortLabel
                                       active={orderBy === key}
@@ -404,6 +413,17 @@ const DataTable: React.FC<DataTableProps> = ({ data }) => {
                                     >
                                       {key}
                                     </TableSortLabel>
+                                    <Box
+                                      sx={{
+                                        cursor: "col-resize",
+                                        width: "5px",
+                                        height: "100%",
+                                        position: "absolute",
+                                        right: 0,
+                                        top: 0,
+                                        backgroundColor: "#ddd", // Visible resize controller
+                                      }}
+                                    />
                                   </Resizable>
                                 </TableCell>
                               )}
