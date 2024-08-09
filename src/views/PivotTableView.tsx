@@ -1,4 +1,3 @@
-// src/views/PivotTableView.tsx
 import React, { useState, useMemo } from "react"
 import PivotTableUI from "react-pivottable/PivotTableUI"
 import "react-pivottable/pivottable.css"
@@ -33,18 +32,19 @@ const PivotTableView: React.FC<Props> = ({ data }) => {
   }
 
   // Function to aggregate data by the chosen time period
-  function aggregateData(
+  function aggregateData<K extends keyof TableDataType>(
     data: TableDataType[],
-    dateField: string,
+    dateField: K, // Ensure dateField is a key of TableDataType
     period: "month" | "year" | "week"
   ) {
     const aggregated: { period: string; count: number }[] = []
     // Aggregate logic based on period
     data.forEach(item => {
-      if (!item[dateField]) {
-        return item
+      const dateValue = item[dateField]
+      if (!dateValue) {
+        return
       }
-      const date = new Date(item[dateField])
+      const date = new Date(dateValue as string) // Cast to string assuming it's a date string
       const key =
         period === "month"
           ? `${date.getFullYear()}-${date.getMonth() + 1}`
