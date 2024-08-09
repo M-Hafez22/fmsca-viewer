@@ -1,3 +1,22 @@
+/**
+ * Renders a data table component with advanced features such as filtering, sorting, pagination, and column resizing.
+ *
+ * The `DataTable` component takes in a `data` prop of type `TableDataType[]` and renders a table with the following features:
+ * - Filtering: Allows the user to filter the data by entering values in the filter input fields.
+ * - Sorting: Allows the user to sort the data by clicking on the column headers.
+ * - Pagination: Allows the user to paginate the data with configurable rows per page.
+ * - Column resizing: Allows the user to resize the columns by dragging the column borders.
+ * - Column reordering: Allows the user to reorder the columns by dragging and dropping the column headers.
+ * - Column visibility: Allows the user to show/hide columns using checkboxes.
+ * - Shareable link: Allows the user to generate a shareable link with the current table state.
+ * - Reset settings: Allows the user to reset the table settings to their default state.
+ *
+ * The component also includes a `Chart` component that displays a chart based on the filtered and sorted data.
+ *
+ * @param {DataTableProps} props - The props for the `DataTable` component.
+ * @param {TableDataType[]} props.data - The data to be displayed in the table.
+ * @returns {React.ReactElement} - The `DataTable` component.
+ */
 import React, { useState, ChangeEvent, useEffect } from "react"
 import {
   Table,
