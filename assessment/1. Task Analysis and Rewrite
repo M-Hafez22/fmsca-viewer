@@ -1,0 +1,94 @@
+1. Task Analysis and Rewrite
+
+Objective:
+
+    Build a React web application using Material UI that presents data from the Federal Motor Carrier Safety Administration (FMCSA). The app should have two main views:
+        Table & Chart View: Display data in a table with advanced features (pagination, filtering, sorting, etc.) and a synchronized bar chart.
+        Pivot Table & Pivot Chart View: Display data in a pivot table with groupable date-time fields and a corresponding pivot chart.
+
+Key Features:
+
+    Table View:
+        Pagination: Users should be able to navigate through large datasets.
+        Column Filters: Allow filtering by specific columns.
+        Sorting: Enable sorting by columns.
+        Search: Implement a global search across all columns.
+        Data Formatting: Format fields (e.g., dates, phone numbers) appropriately.
+        Customizable Columns: Users can resize columns, reorder them, and toggle their visibility.
+        Editable Data: Allow in-place editing of table data with validation (e.g., date-time fields).
+        Persistent State: Save the table and chart configuration in local storage, so it persists across sessions.
+        Bar Chart: Display the number of companies that went "Out of Service" per month. The chart should reflect the current table filters.
+
+    Pivot Table & Pivot Chart View:
+        Date Grouping: Enable grouping data by year, month, or week.
+        Pivot Chart Sync: The pivot chart should update based on the current pivot table view.
+
+    Additional Features:
+        Save & Load Configurations: Allow users to save and load their table and chart configurations.
+        Reset Settings: Provide an option to reset the table to its default settings.
+        Shareable Links: Generate links to share table configurations with others.
+
+    Hosting & Presentation:
+        Deploy the app to a hosting service (e.g., GitHub Pages).
+        Create a Loom video to present the dashboard and explain the code.
+
+2. Tasks Already Done
+
+    Basic Table View Implementation: A basic table is implemented with pagination, filtering, sorting, and search functionalities.
+    Chart Integration: A bar chart is integrated with the table, showing companies that went "Out of Service" per month.
+    Data Formatting: Phone numbers and dates are formatted in the table.
+    Persistent Chart Data: The chart data is saved to localStorage.
+
+3. Detailed Plan to Achieve Remaining Tasks
+Step 1: Enhance Table View Features
+
+    Column Customization:
+        Implement draggable column headers to allow users to reorder columns.
+        Add resizable columns for user customization.
+        Provide checkboxes to toggle the visibility of columns.
+
+    Editable Data with Validation:
+        Implement cell-level editing with appropriate data validation (e.g., ensure date-time fields accept only valid date inputs).
+        Update the bar chart dynamically as data is edited.
+
+    Persistent State Management:
+        Use localStorage to save the user's table configuration, including column order, visibility, sorting, and filters.
+        Ensure the configuration is loaded when the app is reopened.
+
+Step 2: Implement Pivot Table & Pivot Chart
+
+    Pivot Table Implementation:
+        Integrate a pivot table component that allows grouping by year, month, or week.
+        Allow users to select which fields to group by and aggregate.
+
+    Pivot Chart Sync:
+        Connect the pivot chart to the pivot table so that it updates dynamically as the pivot table configuration changes.
+
+Step 3: Save & Load Configuration
+
+    Configuration Management:
+        Implement a modal or sidebar where users can save their current table and chart configuration.
+        Allow users to load saved configurations from local storage.
+        Provide an option to reset the table to its default settings.
+
+Step 4: Shareable Links
+
+    Generate Shareable Links:
+        Create functionality to generate URLs that encode the current table configuration.
+        Decode the URL parameters when the app loads to restore the table and chart state.
+
+Step 5: Hosting and Presentation
+
+    Deploy the App:
+        Use GitHub Pages to deploy the application (npm run deploy should handle this, as per the package.json).
+    Create Loom Video:
+        Record a Loom video demonstrating the features, configuration options, and code structure of the app.
+
+Next Steps
+
+    Start by implementing the column customization features (draggable, resizable, visibility toggling).
+    Move on to editable table cells with validation.
+    Implement the pivot table and its associated chart.
+    Develop the configuration management system.
+    Work on shareable links.
+    Deploy the application and record the Loom video.
